@@ -280,3 +280,23 @@ the `cpufrequtils` service. Check with `cpufreq-info`.
 
 For further information about governors, please see the [kernel
 documentation](https://www.kernel.org/doc/Documentation/cpu-freq/governors.txt).
+
+## Troubleshooting
+Some users have encounted issues when compiling later kernel versions mentioned in this guide. 
+
+When compiling the kernel users may encounter a fatal compile error:
+```bash
+debian/rules:6: recipe for target 'build' failed
+```
+
+This appears be cased by a non-fatal compile error earlier on:
+```bash
+recipe for target 'certs' failed
+```
+
+This can be fixed by executing the following line from the linux-x.x.x folder:
+```bash
+sed -ri '/CONFIG_SYSTEM_TRUSTED_KEYS/s/=.+/=""/g' .config
+```
+
+See please see the [Stack Overflow post](https://unix.stackexchange.com/questions/293642/attempting-to-compile-kernel-yields-a-certification-error) regarding this issue.
